@@ -1,0 +1,99 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>Hospital Tudo Certo - Triagem de pacientes</title>
+		<link rel="stylesheet" href="bootstrap.min.css"/>
+		<link rel="stylesheet" href="page.css"/>
+		<script src="jquery.js"></script>
+		<script src="page.js"></script>
+
+	</head>
+	<body>
+		<header>
+			<div class="dv_hd">
+				<div class="dv_ttl">
+					<p class="pttl">Hospital Tudo certo - Triagem</p>
+				</div>
+			</div>
+		</header>
+		
+		<div class="container-fluid ">
+			<label for="txtpct">Paciente</label>
+			<input type="text" id="txtpct"/>
+			<button type="button" id="btnpct">Cadastrar</button>
+		
+			<div class="pg_bdy">
+				<div class="container pg_grid_ctnr" id="tbl">
+					<div class="row">
+						<div class="col-sm-4 pg_bggrd" >
+							<p>Paciente</p>
+						</div>
+						<div class="col-sm-2 pg_light">
+							<p>Leve</p>
+						</div>
+						<div class="col-sm-2 pg_medium">
+							<p>Medio</p>
+						</div>
+						<div class="col-sm-2 pg_hard">
+							<p>Grave</p>
+						</div>
+					</div>
+				</div>		
+			</div>
+		</div>
+		<script>
+			$(document).ready(function()
+			{
+
+					$("#btnpct").on("click",function(e) 
+					{	
+
+						var texto = $("#txtpct").val();
+						if (texto == ""){
+							alert("Informe um nome valido para o paciente!");
+						}
+						else{
+							var hash = texto.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+							var iddivrow = "rw" + hash;
+							var divexiste = document.getElementById(iddivrow);
+							if ( divexiste != undefined){
+								alert("Paciente [ " + texto + " ] ja esta cadastrado.");
+							}
+							else{
+							
+								var remdiv = "removediv('" + iddivrow + "')";
+								var lightdiv = "lightdiv('" + hash + "')";
+								var mediumdiv = "mediumdiv('" + hash + "')";
+								var harddiv = "harddiv('" + hash + "')";
+								
+								$("#tbl").append("<div class='row' id=" + iddivrow + "> " +
+
+												"<div class='col-sm-4 pg_gridrow_pg_bggrd'> " +
+													"<div><button  data-toggle='tooltip' title='remover paciente' type='button' class='btn btn-info pg_btn pg_btn_rem' id='btrm" + hash + "' onclick=" +remdiv+ "></button></div><div class='pg_dvnomepac'><p class='gridp'>"+texto+"</p></div> " +
+													"<div class='pg_btngrd'><button type='button' data-toggle='tooltip' title='classificar como enfermidade leve' class='btn btn-success pg_btn' id='btgr" + hash + "' onclick=" +lightdiv+ "></button>" +
+													"<button type='button' data-toggle='tooltip' title='classificar como enfermidade media' class='btn btn-warning pg_btn' id='btyl" + hash + "' onclick=" +mediumdiv+ "></button>" +
+													"<button type='button' data-toggle='tooltip' title='classificar como enfermidade grave' class='btn btn-danger pg_btn' id='btrd" + hash + "' onclick=" +harddiv+ "></button></div>" +
+													
+												"</div> " +
+
+
+												"<div class='col-sm-2 pg_gridrow pg_bggrd' id='dvgr"+ hash +"' > " +
+												"</div> " +
+												"<div class='col-sm-2 pg_gridrow pg_bggrd' id='dvyl"+ hash +"' > " +
+												"</div> " +
+												"<div class='col-sm-2 pg_gridrow pg_bggrd' id='dvrd"+ hash +"' > " +
+												"</div> " +
+												"</div>");
+							}
+							$("#txtpct").val("");
+						}
+
+					});
+			});
+		</script>
+		
+		
+
+	</body>
+</html>
